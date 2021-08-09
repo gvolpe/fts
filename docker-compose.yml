@@ -1,0 +1,19 @@
+services:
+  # docker-compose exec postgres usr/local/bin/psql -d fts -U postgres
+  postgres:
+    restart: always
+    image: postgres:13.0-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - DEBUG=false
+      - POSTGRES_DB=fts
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

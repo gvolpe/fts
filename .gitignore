@@ -1,0 +1,10 @@
+.stack-work/
+*~
+cabal.project.local
+dist-newstyle/
+dist/
+.ghc.*
+.direnv
+result
+data/dataset.zip
+data/dataset
