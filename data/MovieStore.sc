@@ -1,3 +1,4 @@
+import $file.DB
 import $file.Domain
 
 import java.time.ZoneOffset
@@ -20,12 +21,12 @@ import Domain._
 def make: Resource[IO, MovieStore[IO]] =
   Session
     .pooled[IO](
-      host = "localhost",
-      port = 5432,
-      user = "postgres",
-      password = Some("secret"),
-      database = "fts",
-      max = 10
+      host = DB.config.host,
+      port = DB.config.port,
+      user = DB.config.user,
+      password = DB.config.password,
+      database = DB.config.database,
+      max = DB.config.max
     )
     .evalTap {
       _.use {
