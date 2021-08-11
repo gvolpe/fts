@@ -12,12 +12,10 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
 library
-  exposed-modules:     Domain.Brand
-                     , Domain.Item
+  exposed-modules:     Domain.Movie
                      , Effects.Logger
                      , Resources
-                     , Services.Brands
-                     , Services.Items
+                     , Services.Movies
   build-depends:       base
                      , aeson
                      , async

@@ -6,7 +6,6 @@ module Resources
   )
 where
 
-import           Control.Monad.Catch
 import           Control.Monad.Managed
 import qualified Data.Text                     as T
 import           Database.PostgreSQL.Resilient
@@ -27,8 +26,8 @@ postgresResource = managed $ withResilientConnection
   P.ConnectInfo { P.connectHost     = "localhost"
                 , P.connectPort     = 5432
                 , P.connectUser     = "postgres"
-                , P.connectPassword = "my-password"
-                , P.connectDatabase = "store"
+                , P.connectPassword = "secret"
+                , P.connectDatabase = "fts"
                 }
  where
   logHandler :: String -> IO ()

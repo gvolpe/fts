@@ -1,14 +1,17 @@
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
 
 module Main where
 
 import           Control.Monad.Managed          ( with )
+import           Data.Foldable                  ( traverse_ )
 import           Resources
-import           Services.Brands                ( mkBrands )
-import           Services.Items                 ( mkItems )
+import           Services.Movies                ( Movies(..)
+                                                , mkMovies
+                                                )
 
 main :: IO ()
 main = with mkResources $ \Res {..} ->
-  let brands = mkBrands postgres
-      items  = mkItems postgres
-  in  putStrLn "Hello FTS"
+  let Movies {..} = mkMovies postgres
+  in  do
+        hits <- findTitle "gamble"
+        traverse_ print hits
