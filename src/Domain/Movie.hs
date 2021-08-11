@@ -18,6 +18,8 @@ import           Database.PostgreSQL.Simple.FromField
                                                 ( FromField(..) )
 import           Database.PostgreSQL.Simple.FromRow
                                                 ( FromRow )
+import           Database.PostgreSQL.Simple.ToField
+                                                ( ToField )
 import           Database.PostgreSQL.Simple.ToRow
                                                 ( ToRow )
 import           GHC.Generics                   ( Generic )
@@ -42,7 +44,10 @@ newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype TitleText = TitleText Text deriving (Generic, Read, Show, ToRow)
+newtype TitleText = TitleText Text
+  deriving stock (Eq, Generic, Read, Show)
+  deriving anyclass ToRow
+  deriving ToField via Text
 
 instance IsString TitleText where
   fromString s =

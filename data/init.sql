@@ -23,9 +23,13 @@ CREATE TABLE movies (
   reviews_from_critics DOUBLE PRECISION
 );
 
-ALTER TABLE movies
-ADD COLUMN ts tsvector
+ALTER TABLE movies ADD COLUMN ts tsvector
     GENERATED ALWAYS AS (to_tsvector('english', title)) STORED;
+
+-- ALTER TABLE movies ADD COLUMN ts tsvector
+    -- GENERATED ALWAYS AS
+        -- (setweight(to_tsvector('english', title), 'A') ||
+         -- setweight(to_tsvector('english', original_title), 'B')) STORED;
 
 CREATE INDEX ts_idx ON movies USING GIN (ts);
 

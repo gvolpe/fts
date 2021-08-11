@@ -24,10 +24,11 @@ mkMovies p =  Movies { findTitle = findTitle' p }
 findTitle' :: ResilientConnection IO -> TitleText -> IO [Movie]
 findTitle' pool txt = do
   conn <- getConnection pool
-  query conn byTitleQuery txt
+  query conn byTitleQuery [txt, txt]
 
 byTitleQuery :: Query
 byTitleQuery =
   [r|SELECT title_id, title, genre, country, language
      FROM movies
-     WHERE ts @@ to_tsquery('english', ?)|]
+     WHERE ts @@ to_tsquery('english', ?)
+     ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC|]
