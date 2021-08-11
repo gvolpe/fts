@@ -49,11 +49,7 @@ instance IsString TitleText where
 data Movie = Movie
   { movieId :: MovieId
   , movieName :: MovieName
-  , movieGenre :: MovieGenre
-  , movieCountry :: MovieCountry
-  , movieLang :: MovieLang
-  } deriving (FromRow, Generic)
-
-instance Show Movie where
-  show (Movie (MovieId _id) (MovieName _name) (MovieGenre _genre) (MovieCountry _country) (MovieLang _lang))
-    = "> " <> T.unpack _name
+  , movieGenre :: Maybe MovieGenre
+  , movieCountry :: Maybe MovieCountry
+  , movieLang :: Maybe MovieLang
+  } deriving (FromRow, Generic, Show)
