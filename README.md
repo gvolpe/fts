@@ -25,7 +25,7 @@ NOTE: Before anything else, we need a PostgreSQL instance up and running. You ca
 
 ### Dataset loader
 
-The loader is a nix shell script interpreted by [Ammonite](http://ammonite.io/), written in Scala, which reads a bunch of CSV files, parses its content, and it stores them in Postgres. These tasks are made easy by [fs2](https://fs2.io), [fs2-data](https://github.com/satabin/fs2-data), and [skunk](https://github.com/tpolecat/skunk).
+The loader is a nix shell script interpreted by [Ammonite](http://ammonite.io/), written in Scala, which reads a movies CSV file, parses its content, and it stores them in Postgres. These tasks are made easy by [fs2](https://fs2.io), [fs2-data](https://github.com/satabin/fs2-data), and [skunk](https://github.com/tpolecat/skunk).
 
 ```shell
 $ cd data

@@ -1,7 +1,9 @@
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module Effects.Display where
 
+import           Data.Foldable                  ( traverse_ )
 import qualified Data.Text                     as T
 import           Data.Word                      ( Word8 )
 import           Domain.Movie
@@ -11,15 +13,18 @@ import           System.IO
 class Display a where
   display :: a -> IO ()
 
-instance (Num a, Show a) => Display (a, Movie) where
-  display (idx, Movie (MovieId _id) (MovieName _name) _ _ _) = do
-    setSGR
-      [ SetConsoleIntensity NormalIntensity
-      , SetPaletteColor Foreground paleOrange
-      ]
-    putStrLn $ show idx <> ". " <> T.unpack _name
-    setSGR [Reset]
-    putStrLn $ "   ➢ " <> "https://www.imdb.com/title/" <> T.unpack _id
+instance Display [Movie] where
+  display [] = putStrLn "➢ No hits"
+  display xs = traverse_ f $ zip [1 ..] xs
+   where
+    f (idx, Movie (MovieId _id) (MovieName _name) _ _ _) = do
+      setSGR
+        [ SetConsoleIntensity NormalIntensity
+        , SetPaletteColor Foreground paleOrange
+        ]
+      putStrLn $ show idx <> ". " <> T.unpack _name
+      setSGR [Reset]
+      putStrLn $ "   ➢ " <> "https://www.imdb.com/title/" <> T.unpack _id
 
 instance Display ResultText where
   display (ResultText t) = do
@@ -30,9 +35,11 @@ instance Display ResultText where
       ]
     fullLineText $ T.unpack t
     setSGR [Reset]
+    putStrLn ""
 
 instance Display SearchText where
   display (SearchText t) = do
+    putStrLn ""
     setSGR
       [ SetConsoleIntensity BoldIntensity
       , SetColor Foreground Vivid White

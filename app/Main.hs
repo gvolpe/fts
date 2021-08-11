@@ -1,5 +1,4 @@
-{-# OPTIONS_GHC -fno-warn-type-defaults #-}
-{-# LANGUAGE LambdaCase, OverloadedStrings, RecordWildCards #-}
+{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
 
 module Main where
 
@@ -7,7 +6,6 @@ import           Control.Monad                  ( forever
                                                 , when
                                                 )
 import           Control.Monad.Managed          ( with )
-import           Data.Foldable                  ( traverse_ )
 import           Data.String                    ( fromString )
 import           Domain.Movie                   ( Movie
                                                 , ResultText
@@ -28,10 +26,6 @@ main = with mkResources $ \Res {..} ->
         when (input /= "") (program $ findTitle input)
  where
   program :: IO [Movie] -> IO ()
-  program f = do
+  program runQuery = do
     display ("🎬 Movies" :: ResultText)
-    putStrLn ""
-    f >>= \case
-      [] -> putStrLn "➢ No hits"
-      xs -> traverse_ display $ zip [1 ..] xs
-    putStrLn ""
+    runQuery >>= display
