@@ -9,24 +9,9 @@ Full-text search demo powered by PostgreSQL, inspired by [this article](https://
 
 There are two components in this project: the dataset loader and the full-text search console application.
 
-### Dataset loader
-
-The loader is a nix shell script interpreted by [Ammonite](http://ammonite.io/), written in Scala, which reads a bunch of CSV files, parses its content, and it stores them in Postgres. These tasks are made easy by [fs2](https://fs2.io), [fs2-data](https://github.com/satabin/fs2-data), and [skunk](https://github.com/tpolecat/skunk).
-
-Before proceeding, we need a PostgreSQL instance up and running. You can use the supplied [docker-compose.yml](./docker-compose.yml) file, or have your own instance running.
-
-Once the requirements are met, we can run the script in the following way via Nix.
-
-```shell
-$ cd data
-$ ./Loader.sc
-```
-
-If you wish to change the Postgres connection details, have a look at the [configuration file](data/DB.sc).
-
 ### Full-text search console app
 
-In the console app, you can search movies by title.
+In the console app, you can search movies by title. Run it as follows.
 
 ```shell
 $ cabal new-run fts
@@ -35,6 +20,32 @@ $ cabal new-run fts
 ![screenshot](img/fts.png)
 
 Hit `Ctrl + C` to exit.
+
+NOTE: Before anything else, we need a PostgreSQL instance up and running. You can use the supplied [docker-compose.yml](./docker-compose.yml) file, or have your own instance running.
+
+### Dataset loader
+
+The loader is a nix shell script interpreted by [Ammonite](http://ammonite.io/), written in Scala, which reads a bunch of CSV files, parses its content, and it stores them in Postgres. These tasks are made easy by [fs2](https://fs2.io), [fs2-data](https://github.com/satabin/fs2-data), and [skunk](https://github.com/tpolecat/skunk).
+
+```shell
+$ cd data
+$ ./Loader.sc
+```
+
+If you wish to change the Postgres connection details, have a look at the [configuration file](data/DB.sc).
+
+### Technical details
+
+Every time a title is entered in the console, a full-text search is performed against Postgres via the following query, which orders the results by the corresponding ranking (`ts_rank`).
+
+```sql
+SELECT title_id, title, genre, country, language
+FROM movies
+WHERE ts @@ to_tsquery('english', ?)
+ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC
+```
+
+The console application only displays the title together with a link to the movie in [imdb](https://www.imdb.com/) but anything should be possible with a bit of customization.
 
 ## Dataset
 
