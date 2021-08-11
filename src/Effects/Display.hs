@@ -10,8 +10,8 @@ import           System.Console.ANSI
 class Display a where
   display :: a -> IO ()
 
-instance Display (Int, Movie) where
-  display (idx, (Movie (MovieId _id) (MovieName _name) _ _ _)) = do
+instance (Num a, Show a) => Display (a, Movie) where
+  display (idx, Movie (MovieId _id) (MovieName _name) _ _ _) = do
     setSGR
       [ SetConsoleIntensity NormalIntensity
       , SetPaletteColor Foreground lightPurple

@@ -7,10 +7,8 @@ module Resources
 where
 
 import           Control.Monad.Managed
-import qualified Data.Text                     as T
 import           Database.PostgreSQL.Resilient
 import qualified Database.PostgreSQL.Simple    as P
-import           Effects.Logger
 
 data Resources = Res
   { postgres :: ResilientConnection IO
@@ -31,4 +29,4 @@ postgresResource = managed $ withResilientConnection
                 }
  where
   logHandler :: String -> IO ()
-  logHandler = logInfo . T.pack
+  logHandler _ = return ()

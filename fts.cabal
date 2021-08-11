@@ -14,15 +14,11 @@ extra-source-files:  CHANGELOG.md
 library
   exposed-modules:     Domain.Movie
                      , Effects.Display
-                     , Effects.Logger
                      , Resources
                      , Services.Movies
   build-depends:       base
                      , aeson
                      , ansi-terminal
-                     , async
-                     , bytestring
-                     , co-log-core
                      , containers
                      , exceptions
                      , generic-lens

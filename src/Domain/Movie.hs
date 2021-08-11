@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# LANGUAGE DeriveAnyClass, DeriveGeneric, DerivingVia, OverloadedStrings #-}
 
 module Domain.Movie
@@ -41,10 +42,13 @@ newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype TitleText = TitleText Text deriving (Generic, ToRow, Show)
+newtype TitleText = TitleText Text deriving (Generic, Read, Show, ToRow)
 
 instance IsString TitleText where
-  fromString = TitleText . T.pack
+  fromString s =
+    let ys = zip [0 ..] $ words s
+        f  = \(i, w) -> if even i then w else "& " <> w
+    in  TitleText $ T.pack (unwords $ f <$> ys)
 
 data Movie = Movie
   { movieId :: MovieId

@@ -26,7 +26,15 @@ If you wish to change the Postgres connection details, have a look at the [confi
 
 ### Full-text search console app
 
-TODO: remains to be done
+In the console app, you can search movies by title.
+
+```shell
+$ cabal new-run fts
+```
+
+![screenshot](img/fts.png)
+
+Hit `Ctrl + C` to exit.
 
 ## Dataset
 
