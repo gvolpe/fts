@@ -5,6 +5,8 @@ module Domain.Movie
   ( MovieId(..)
   , MovieName(..)
   , Movie(..)
+  , ResultText(..)
+  , SearchText(..)
   , TitleText(..)
   )
 where
@@ -43,6 +45,18 @@ newtype MovieCountry = MovieCountry Text
 newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
+
+newtype SearchText = SearchText Text
+  deriving stock (Generic, Show)
+
+instance IsString SearchText where
+  fromString = SearchText . T.pack
+
+newtype ResultText = ResultText Text
+  deriving stock (Generic, Show)
+
+instance IsString ResultText where
+  fromString = ResultText . T.pack
 
 newtype TitleText = TitleText Text
   deriving stock (Eq, Generic, Read, Show)
