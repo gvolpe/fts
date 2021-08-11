@@ -1,11 +1,13 @@
-{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
+{-# LANGUAGE OverloadedLabels, OverloadedStrings #-}
 
 module Main where
 
+import           Control.Lens
 import           Control.Monad                  ( forever
                                                 , when
                                                 )
 import           Control.Monad.Managed          ( with )
+import           Data.Generics.Labels           ( )
 import           Data.String                    ( fromString )
 import           Domain.Movie                   ( Movie
                                                 , ResultText
@@ -13,18 +15,15 @@ import           Domain.Movie                   ( Movie
                                                 )
 import           Effects.Display
 import           Resources
-import           Services.Movies                ( Movies(..)
-                                                , mkMovies
-                                                )
+import           Services.Movies                ( mkMovies )
 
 main :: IO ()
-main = with mkResources $ \Res {..} ->
-  let Movies {..} = mkMovies postgres
-  in  forever $ do
-        display ("🔍 Search title: " :: SearchText)
-        input <- fromString <$> getLine
-        when (input /= "") (program $ findTitle input)
+main = with managedMovies $ \movies -> forever $ do
+  display ("🔍 Search title: " :: SearchText)
+  input <- fromString <$> getLine
+  when (input /= "") (program $ input & movies ^. #findTitle)
  where
+  managedMovies = mkMovies . view #postgres <$> mkResources
   program :: IO [Movie] -> IO ()
   program runQuery = do
     display ("🎬 Movies" :: ResultText)

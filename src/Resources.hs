@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
 
 module Resources
   ( Resources(..)
@@ -9,10 +9,11 @@ where
 import           Control.Monad.Managed
 import           Database.PostgreSQL.Resilient
 import qualified Database.PostgreSQL.Simple    as P
+import           GHC.Generics                   ( Generic )
 
 data Resources = Res
   { postgres :: ResilientConnection IO
-  }
+  } deriving Generic
 
 mkResources :: Managed Resources
 mkResources = Res <$> postgresResource
