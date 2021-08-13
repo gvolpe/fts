@@ -22,7 +22,6 @@ library
                      , containers
                      , exceptions
                      , managed
-                     , par-dual
                      , postgresql-resilient
                      , postgresql-simple
                      , prettyprinter
@@ -42,7 +41,6 @@ test-Suite fts-tests
                      , fts
                      , template-haskell
                      , text
-                     , uuid
   default-language:     Haskell2010
   ghc-options:         -Wall -threaded -with-rtsopts -N
 

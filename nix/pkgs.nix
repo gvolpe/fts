@@ -1,32 +1,23 @@
-{ compiler ? "ghc884" }:
+{ compiler ? "ghc8104" }:
 
 let
   pkgs = import (
     builtins.fetchTarball {
-      name   = "nixos-unstable-2020-08-15";
-      url    = "https://github.com/NixOS/nixpkgs-channels/archive/96745f022835.tar.gz";
-      sha256 = "1jfiaib3h6gmffwsg7d434di74x5v5pbwfifqw3l1mcisxijqm3s";
+      name = "nixos-unstable-2021-08-01";
+      url = "https://github.com/NixOS/nixpkgs/archive/8ecc61c91a5.tar.gz";
+      sha256 = "0vhajylsmipjkm5v44n2h0pglcmpvk4mkyvxp7qfvkjdxw21dyml";
     }
   ) {};
 
   hp = pkgs.haskell.packages.${compiler}.override {
-    overrides = newPkgs: oldPkgs: rec {
-      par-dual =
-        pkgs.haskell.lib.dontCheck (
-          newPkgs.callCabal2nix "par-dual" (
-            builtins.fetchGit {
-              url = "https://github.com/gvolpe/par-dual.git";
-              rev = "49ad0c2102e061d38133540a2d6dcf75d4dac69c";
-            }
-          ) {}
-        );
-
+    overrides = new: old: rec {
       postgresql-resilient =
         pkgs.haskell.lib.dontCheck (
-          newPkgs.callCabal2nix "postgresql-resilient" (
+          new.callCabal2nix "postgresql-resilient" (
             builtins.fetchGit {
               url = "https://github.com/gvolpe/postgresql-resilient.git";
-              rev = "851df8dd6220656948f8e0f665d499371146854d";
+              rev = "5544240a7e7e7077f7828f8941407254f3de8b62";
+              ref = "refs/heads/nix/remove-cabal-bounds";
             }
           ) {}
         );
