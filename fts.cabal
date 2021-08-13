@@ -22,6 +22,7 @@ library
                      , containers
                      , exceptions
                      , managed
+                     , monomer
                      , postgresql-resilient
                      , postgresql-simple
                      , prettyprinter

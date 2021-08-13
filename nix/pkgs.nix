@@ -11,6 +11,33 @@ let
 
   hp = pkgs.haskell.packages.${compiler}.override {
     overrides = new: old: rec {
+      monomer =
+        pkgs.haskell.lib.dontCheck (
+          new.callCabal2nix "monomer" (
+            builtins.fetchGit {
+              url = "https://github.com/fjvallarino/monomer.git";
+              rev = "c1903ed153243aadb12a838bfc1238b4e25a6bcf";
+            }
+          ) { GLEW = pkgs.glew; }
+        );
+
+      nanovg =
+        pkgs.haskell.lib.dontCheck (
+          new.callCabal2nixWithOptions "nanovg" (
+            builtins.fetchGit {
+              url = "https://github.com/fjvallarino/nanovg-hs.git";
+              ref = "refs/heads/chore/windows-build";
+              rev = "ba8733f58da63e0934b5d2853ed84b71e872e6f1";
+            }
+          ) "-fexamples -fstb_truetype" {
+            GLEW = null;
+            inherit (pkgs) glew;
+            inherit (pkgs) libGL;
+            inherit (pkgs) libGLU;
+            inherit (pkgs.xorg) libX11;
+          }
+        );
+
       postgresql-resilient =
         pkgs.haskell.lib.dontCheck (
           new.callCabal2nix "postgresql-resilient" (
