@@ -26,7 +26,7 @@ findTitle' pool txt = do
   query conn byTitleQuery [txt, txt]
 
 byTitleQuery :: Query
-byTitleQuery = [r|SELECT title_id, title, genre, country, language
+byTitleQuery = [r|SELECT title_id, title, genre, year, language, description
      FROM movies
      WHERE ts @@ to_tsquery('english', ?)
      ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC|]

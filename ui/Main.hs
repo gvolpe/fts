@@ -6,7 +6,6 @@ import           Control.Exception
 import           Control.Lens
 import           Control.Monad.Managed          ( with )
 import           Data.Default
-import           Data.Either.Extra
 import           Data.Generics.Labels           ( )
 import           Data.Maybe
 import           Data.Text                      ( Text )
@@ -44,12 +43,12 @@ main = with managedMovies $ \service -> do
   initModel = MoviesModel "" False Nothing [] Nothing
 
 movieImage :: Maybe Text -> WidgetNode s MoviesEvt
-movieImage imgId = maybe filler coverImg imgId where
+movieImage = maybe filler coverImg where
   baseUrl = "https://www.themoviedb.org/t/p/w1280"
   coverImg i = image_ (baseUrl <> i) [fitHeight, alignRight]
 
 fetchPoster :: Movie -> IO (Maybe String)
-fetchPoster (Movie (MovieId tid) _ _ _ _) = do
+fetchPoster (Movie (MovieId tid) _ _ _ _ _) = do
   let url = posterUrl tid
   putStrLn $ "Querying: " <> url
   m <- fetch url
@@ -101,9 +100,9 @@ eventHandler service wenv _ model evt = case evt of
 movieRow :: MoviesWenv -> MovieDTO -> MoviesNode
 movieRow wenv m = row where
   rowBgColor  = wenv ^. L.theme . L.userColorMap . at "rowBgColor" . non def
-  publishYear = "2021" -- maybe "" showt (m ^. year)
+  publishYear = maybe "" showt (m ^. year)
 
-  rowContent m = hstack
+  rowContent  = hstack
     [ vstack
       [ label_ (m ^. titleName) [resizeFactor 1]
         `styleBasic` [textFont "Medium", textSize 16]
@@ -111,23 +110,27 @@ movieRow wenv m = row where
       , label_ (m ^. titleId) [resizeFactor 1] `styleBasic` [textSize 14]
       ]
     , filler
-    , vstack [label publishYear `styleBasic` [width 50, textSize 14], spacer]
+    , vstack
+      [ label publishYear `styleBasic` [height 100, width 50, textSize 14]
+      , spacer
+      ]
     , movieImage (m ^. poster) `styleBasic` [width 35]
     ]
 
   row = box_ cfg content `styleBasic` [padding 10, paddingT 0]   where
     cfg = [expandContent, onClick (MoviesShowDetails m)]
     content =
-      rowContent m
+      rowContent
         `styleBasic` [height 80, padding 20, radius 5]
         `styleHover` [bgColor rowBgColor, cursorIcon CursorHand]
 
 movieDetail :: MovieDTO -> WidgetNode s MoviesEvt
 movieDetail m = content `styleBasic` [minWidth 600, paddingH 20] where
   hasPoster   = isJust (m ^. poster)
-  publishYear = "2021" -- maybe "" showt (m ^. year)
+  synopsis'   = maybe "" showt (m ^. synopsis)
+  publishYear = maybe "" showt (m ^. year)
 
-  --shortLabel value = label value `styleBasic` [textFont "Medium", textTop]
+  shortLabel value = label value `styleBasic` [textFont "Medium", textTop]
   longLabel value = label_ value [multiline, ellipsis, trimSpaces]
 
   content =
@@ -137,12 +140,14 @@ movieDetail m = content `styleBasic` [minWidth 600, paddingH 20] where
               [ longLabel (m ^. titleName)
                 `styleBasic` [textSize 20, textFont "Medium"]
               , spacer
-              , longLabel (m ^. titleId) `styleBasic` [textSize 16]
+              , shortLabel (m ^. titleId) `styleBasic` [textSize 16]
               , spacer
               , label publishYear `styleBasic` [textSize 14]
+              , spacer
+              , longLabel synopsis' `styleBasic` [textSize 12]
               ]
           ]
-        , [filler]
+        , [ filler | hasPoster ]
         , [ movieImage (m ^. poster) `styleBasic` [width 350] | hasPoster ]
         ]
 

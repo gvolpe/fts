@@ -15,6 +15,8 @@ import           GHC.Generics                   ( Generic )
 data MovieDTO = MovieDTO
   { _mvTitleId   :: Text
   , _mvTitleName :: Text
+  , _mvYear      :: Maybe Int
+  , _mvSynopsis  :: Maybe Text
   , _mvPoster    :: Maybe Text
   }
   deriving (Eq, Show)
@@ -23,8 +25,11 @@ toTitleText :: Text -> TitleText
 toTitleText = fromString . T.unpack
 
 fromMovie :: Maybe String -> Movie -> MovieDTO
-fromMovie poster (Movie (MovieId _id) (MovieName _name) _ _ _) =
-  MovieDTO _id _name (T.pack <$> poster)
+fromMovie poster (Movie (MovieId _id) (MovieName _name) _ maybeYear _ maybeDesc)
+  = MovieDTO _id _name _year _desc (T.pack <$> poster)
+ where
+  _desc = (\(MovieDescription y) -> y) <$> maybeDesc
+  _year = (\(MovieYear y) -> y) <$> maybeYear
 
 data MoviesModel = MoviesModel
   { _mvmQuery     :: Text

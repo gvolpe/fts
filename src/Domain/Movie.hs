@@ -3,7 +3,9 @@
 
 module Domain.Movie
   ( MovieId(..)
+  , MovieDescription(..)
   , MovieName(..)
+  , MovieYear(..)
   , Movie(..)
   , ResultText(..)
   , SearchText(..)
@@ -37,11 +39,15 @@ newtype MovieGenre = MovieGenre Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype MovieCountry = MovieCountry Text
+newtype MovieYear = MovieYear Int
+  deriving stock (Generic, Show)
+  deriving FromField via Int
+
+newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype MovieLang = MovieLang Text
+newtype MovieDescription = MovieDescription Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
@@ -69,10 +75,11 @@ instance IsString TitleText where
     in  TitleText $ T.pack (unwords $ f <$> ys)
 
 data Movie = Movie
-  { movieId      :: MovieId
-  , movieName    :: MovieName
-  , movieGenre   :: Maybe MovieGenre
-  , movieCountry :: Maybe MovieCountry
-  , movieLang    :: Maybe MovieLang
+  { movieId          :: MovieId
+  , movieName        :: MovieName
+  , movieGenre       :: Maybe MovieGenre
+  , movieYear        :: Maybe MovieYear
+  , movieLang        :: Maybe MovieLang
+  , movieDescription :: Maybe MovieDescription
   }
   deriving (FromRow, Generic, Show)
