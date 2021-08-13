@@ -59,7 +59,14 @@ executable fts
 
 executable fts-ui
   main-is:             Main.hs
-  other-modules:       MovieTypes
+  other-modules:       EventHandler
+                     , HTTP.Posters
+                     , Types.Movie
+                     , UI.Movies
+                     , UI.Themes
+                     , UI.Widgets.MovieDetail
+                     , UI.Widgets.MovieImage
+                     , UI.Widgets.MovieRow
   hs-source-dirs:      ui
   build-depends:       base
                      , aeson

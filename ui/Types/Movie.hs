@@ -1,8 +1,12 @@
-{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
-{-# LANGUAGE FlexibleInstances, FunctionalDependencies, ScopedTypeVariables #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TemplateHaskell #-}
 
-module MovieTypes where
+module Types.Movie where
 
 import           Control.Lens.TH
 import           Data.Aeson
@@ -11,6 +15,12 @@ import           Data.Text                      ( Text )
 import qualified Data.Text                     as T
 import           Domain.Movie
 import           GHC.Generics                   ( Generic )
+import           Monomer                        ( WidgetEnv(..)
+                                                , WidgetNode(..)
+                                                )
+
+type MoviesWenv = WidgetEnv MoviesModel MoviesEvt
+type MoviesNode = WidgetNode MoviesModel MoviesEvt
 
 data MovieDTO = MovieDTO
   { _mvTitleId   :: Text

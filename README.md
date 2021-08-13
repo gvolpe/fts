@@ -7,7 +7,11 @@ Full-text search demo powered by PostgreSQL, inspired by [this article](https://
 
 ## Overview
 
-There are two components in this project: the dataset loader and the full-text search console application.
+There are three components in this project: the dataset loader and both full-text search applications: a console app and a GUI app.
+
+### System requirements
+
+Before anything else, we need a PostgreSQL instance up and running. You can use the supplied [docker-compose.yml](./docker-compose.yml) file, or have your own instance running.
 
 ### Full-text search console app
 
@@ -17,11 +21,21 @@ In the console app, you can search movies by title. Run it as follows.
 $ cabal new-run fts
 ```
 
-![screenshot](img/fts.png)
+![console-app](img/fts.png)
 
 Hit `Ctrl + C` to exit.
 
-NOTE: Before anything else, we need a PostgreSQL instance up and running. You can use the supplied [docker-compose.yml](./docker-compose.yml) file, or have your own instance running.
+### Full-text search GUI app
+
+The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package.
+
+```shell
+$ cabal new-run fts-ui
+```
+
+TODO: Add screenshot
+
+In addition to search movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
 
 ### Dataset loader
 
@@ -47,6 +61,6 @@ ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC
 
 The console application only displays the title together with a link to the movie in [imdb](https://www.imdb.com/) but anything should be possible with a bit of customization.
 
-## Dataset
+## Dataset License
 
 The movies dataset is licensed under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), downloaded from [here](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset).
