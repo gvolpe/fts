@@ -8,8 +8,7 @@ module Domain.Movie
   , ResultText(..)
   , SearchText(..)
   , TitleText(..)
-  )
-where
+  ) where
 
 import           Data.String                    ( IsString
                                                 , fromString
@@ -70,9 +69,10 @@ instance IsString TitleText where
     in  TitleText $ T.pack (unwords $ f <$> ys)
 
 data Movie = Movie
-  { movieId :: MovieId
-  , movieName :: MovieName
-  , movieGenre :: Maybe MovieGenre
+  { movieId      :: MovieId
+  , movieName    :: MovieName
+  , movieGenre   :: Maybe MovieGenre
   , movieCountry :: Maybe MovieCountry
-  , movieLang :: Maybe MovieLang
-  } deriving (FromRow, Generic, Show)
+  , movieLang    :: Maybe MovieLang
+  }
+  deriving (FromRow, Generic, Show)

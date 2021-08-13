@@ -56,3 +56,22 @@ executable fts
                      , fts
   default-language:    Haskell2010
   ghc-options:         -Wall
+
+executable fts-ui
+  main-is:             Main.hs
+  other-modules:       MovieTypes
+  hs-source-dirs:      ui
+  build-depends:       base
+                     , aeson
+                     , data-default
+                     , extra
+                     , generic-lens
+                     , lens
+                     , managed
+                     , monomer
+                     , text
+                     , text-show
+                     , wreq
+                     , fts
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded
