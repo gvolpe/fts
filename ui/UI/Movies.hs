@@ -3,7 +3,6 @@
 module UI.Movies where
 
 import           Control.Lens
-import           Data.Generics.Labels           ( )
 import           Data.Maybe
 import           Monomer
 import qualified Monomer.Lens                  as L
@@ -30,7 +29,7 @@ moviesUI wenv model = widgetTree where
 
   searchForm = keystroke [("Enter", MoviesSearch)] $ vstack
     [ hstack
-          [ label "Query:"
+          [ label "Title:"
           , spacer
           , textField query `nodeKey` "query"
           , spacer

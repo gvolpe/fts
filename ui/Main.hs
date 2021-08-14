@@ -3,20 +3,17 @@
 
 module Main where
 
-import           Control.Exception
 import           Control.Lens
 import           Control.Monad.Managed          ( with )
 import           Data.Generics.Labels           ( )
-import           Data.Text                      ( Text )
-import qualified Data.Text                     as T
-import           EventHandler                   ( eventHandler )
+import           Handler                        ( eventHandler )
 import           Monomer
 import           Resources
 import           Services.Movies                ( mkMovies )
-import           System.Environment             ( getEnv )
 import           Types.Movie
 import           UI.Movies                      ( moviesUI )
 import           UI.Themes                      ( customDarkTheme )
+import           Utils                          ( safeGetEnv )
 
 main :: IO ()
 main = with managedMovies $ \service -> do
@@ -32,12 +29,3 @@ main = with managedMovies $ \service -> do
     , appInitEvent MoviesInit
     ]
   initModel = MoviesModel "" False Nothing [] Nothing
-
-safeGetEnv :: String -> IO (Maybe Text)
-safeGetEnv var = (Just . T.pack <$> getEnv var) `orElse` pure Nothing
-
-catchAny :: IO a -> (SomeException -> IO a) -> IO a
-catchAny = catch
-
-orElse :: IO a -> IO a -> IO a
-orElse fa fb = catchAny fa (const fb)

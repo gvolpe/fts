@@ -1,16 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# LANGUAGE DeriveAnyClass, DeriveGeneric, DerivingVia, OverloadedStrings #-}
 
-module Domain.Movie
-  ( MovieId(..)
-  , MovieDescription(..)
-  , MovieName(..)
-  , MovieYear(..)
-  , Movie(..)
-  , ResultText(..)
-  , SearchText(..)
-  , TitleText(..)
-  ) where
+module Domain.Movie where
 
 import           Data.String                    ( IsString
                                                 , fromString

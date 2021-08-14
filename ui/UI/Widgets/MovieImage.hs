@@ -2,7 +2,6 @@
 
 module UI.Widgets.MovieImage where
 
-import           Data.Generics.Labels           ( )
 import           Data.Text                      ( Text )
 import           Monomer
 import           Types.Movie

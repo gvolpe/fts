@@ -4,7 +4,6 @@ module UI.Widgets.MovieRow where
 
 import           Control.Lens
 import           Data.Default
-import           Data.Generics.Labels           ( )
 import           Monomer
 import qualified Monomer.Lens                  as L
 import           TextShow
@@ -14,14 +13,15 @@ import           UI.Widgets.MovieImage          ( movieImage )
 movieRow :: MoviesWenv -> MovieDTO -> MoviesNode
 movieRow wenv m = row where
   rowBgColor  = wenv ^. L.theme . L.userColorMap . at "rowBgColor" . non def
-  publishYear = maybe "" showt (m ^. year)
+  publishYear = maybe "Unknown" showt (m ^. year)
+  genre'      = maybe "Unknown" showt (m ^. genre)
 
   rowContent  = hstack
     [ vstack
       [ label_ (m ^. titleName) [resizeFactor 1]
         `styleBasic` [textFont "Medium", textSize 16]
       , spacer
-      , label_ (m ^. titleId) [resizeFactor 1] `styleBasic` [textSize 14]
+      , label_ genre' [resizeFactor 1] `styleBasic` [textSize 14]
       ]
     , filler
     , vstack

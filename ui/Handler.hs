@@ -1,14 +1,16 @@
 {-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module EventHandler
+module Handler
   ( eventHandler
   ) where
 
 import           Control.Lens
 import           Data.Generics.Labels           ( )
 import           Data.Text                      ( Text )
-import           HTTP.Posters                   ( ApiKey, fetchPoster )
+import           HTTP.Posters                   ( ApiKey
+                                                , fetchPoster
+                                                )
 import           Monomer
 import           Services.Movies                ( Movies )
 import           Types.Movie
