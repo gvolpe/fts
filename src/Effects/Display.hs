@@ -6,6 +6,7 @@ module Effects.Display where
 import           Data.Foldable                  ( traverse_ )
 import qualified Data.Text                     as T
 import           Data.Word                      ( Word8 )
+import           Database.PostgreSQL.Simple     ( SqlError(..) )
 import           Domain.Movie
 import           System.Console.ANSI
 import           System.IO
@@ -48,6 +49,18 @@ instance Display SearchText where
     putStr $ T.unpack t
     hFlush stdout
     setSGR [Reset]
+
+instance Display SqlError where
+  display (SqlError _ _ msg _ _) = do
+    setSGR
+      [ SetConsoleIntensity BoldIntensity
+      , SetColor Foreground Vivid White
+      , SetColor Background Vivid Red
+      ]
+    putStr $ "SQL Error: " <> show msg
+    hFlush stdout
+    setSGR [Reset]
+    putStrLn ""
 
 instance Display String where
   display = putStrLn

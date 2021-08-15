@@ -16,6 +16,7 @@ library
                      , Effects.Display
                      , Resources
                      , Services.Movies
+                     , Utils
   build-depends:       base
                      , aeson
                      , ansi-terminal
@@ -70,7 +71,6 @@ executable fts-ui
                      , UI.Widgets.MovieDetail
                      , UI.Widgets.MovieImage
                      , UI.Widgets.MovieRow
-                     , Utils
   hs-source-dirs:      ui
   build-depends:       base
                      , aeson
