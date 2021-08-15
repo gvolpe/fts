@@ -21,6 +21,7 @@ library
                      , ansi-terminal
                      , containers
                      , exceptions
+                     , extra
                      , managed
                      , monomer
                      , postgresql-resilient
@@ -37,7 +38,9 @@ test-Suite fts-tests
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Main.hs
+  other-modules:       Domain.TitleTextSpec
   build-depends:       base
+                     , extra
                      , hedgehog
                      , fts
                      , template-haskell

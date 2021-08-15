@@ -3,6 +3,8 @@
 
 module Domain.Movie where
 
+import           Data.List                      ( intercalate )
+import           Data.List.Extra                ( trim )
 import           Data.String                    ( IsString
                                                 , fromString
                                                 )
@@ -60,10 +62,7 @@ newtype TitleText = TitleText Text
   deriving ToField via Text
 
 instance IsString TitleText where
-  fromString s =
-    let ys = zip [0 ..] $ words s
-        f  = \(i, w) -> if even i then w else "& " <> w
-    in  TitleText $ T.pack (unwords $ f <$> ys)
+  fromString s = TitleText . T.pack $ intercalate " & " (words . trim $ s)
 
 data Movie = Movie
   { movieId          :: MovieId
