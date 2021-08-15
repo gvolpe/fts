@@ -17,7 +17,7 @@ instance Display [Movie] where
   display [] = putStrLn "➢ No hits"
   display xs = traverse_ f $ zip [1 ..] xs
    where
-    f (idx, Movie (MovieId _id) (MovieName _name) _ _ _) = do
+    f (idx, Movie (MovieId _id) (MovieName _name) _ _ _ _) = do
       setSGR
         [ SetConsoleIntensity NormalIntensity
         , SetPaletteColor Foreground paleOrange

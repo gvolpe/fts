@@ -21,6 +21,7 @@ library
                      , ansi-terminal
                      , containers
                      , exceptions
+                     , extra
                      , managed
                      , monomer
                      , postgresql-resilient
@@ -37,7 +38,9 @@ test-Suite fts-tests
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Main.hs
+  other-modules:       Domain.TitleTextSpec
   build-depends:       base
+                     , extra
                      , hedgehog
                      , fts
                      , template-haskell
@@ -56,3 +59,30 @@ executable fts
                      , fts
   default-language:    Haskell2010
   ghc-options:         -Wall
+
+executable fts-ui
+  main-is:             Main.hs
+  other-modules:       Handler
+                     , HTTP.Posters
+                     , Types.Movie
+                     , UI.Movies
+                     , UI.Themes
+                     , UI.Widgets.MovieDetail
+                     , UI.Widgets.MovieImage
+                     , UI.Widgets.MovieRow
+                     , Utils
+  hs-source-dirs:      ui
+  build-depends:       base
+                     , aeson
+                     , data-default
+                     , extra
+                     , generic-lens
+                     , lens
+                     , managed
+                     , monomer
+                     , text
+                     , text-show
+                     , wreq
+                     , fts
+  default-language:    Haskell2010
+  ghc-options:         -Wall -threaded

@@ -1,16 +1,10 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
 {-# LANGUAGE DeriveAnyClass, DeriveGeneric, DerivingVia, OverloadedStrings #-}
 
-module Domain.Movie
-  ( MovieId(..)
-  , MovieName(..)
-  , Movie(..)
-  , ResultText(..)
-  , SearchText(..)
-  , TitleText(..)
-  )
-where
+module Domain.Movie where
 
+import           Data.List                      ( intercalate )
+import           Data.List.Extra                ( trim )
 import           Data.String                    ( IsString
                                                 , fromString
                                                 )
@@ -38,11 +32,15 @@ newtype MovieGenre = MovieGenre Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype MovieCountry = MovieCountry Text
+newtype MovieYear = MovieYear Int
+  deriving stock (Generic, Show)
+  deriving FromField via Int
+
+newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype MovieLang = MovieLang Text
+newtype MovieDescription = MovieDescription Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
@@ -64,15 +62,14 @@ newtype TitleText = TitleText Text
   deriving ToField via Text
 
 instance IsString TitleText where
-  fromString s =
-    let ys = zip [0 ..] $ words s
-        f  = \(i, w) -> if even i then w else "& " <> w
-    in  TitleText $ T.pack (unwords $ f <$> ys)
+  fromString s = TitleText . T.pack $ intercalate " & " (words . trim $ s)
 
 data Movie = Movie
-  { movieId :: MovieId
-  , movieName :: MovieName
-  , movieGenre :: Maybe MovieGenre
-  , movieCountry :: Maybe MovieCountry
-  , movieLang :: Maybe MovieLang
-  } deriving (FromRow, Generic, Show)
+  { movieId          :: MovieId
+  , movieName        :: MovieName
+  , movieGenre       :: Maybe MovieGenre
+  , movieYear        :: Maybe MovieYear
+  , movieLang        :: Maybe MovieLang
+  , movieDescription :: Maybe MovieDescription
+  }
+  deriving (FromRow, Generic, Show)

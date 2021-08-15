@@ -1,12 +1,12 @@
-{-# LANGUAGE DeriveAnyClass, DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings, RecordWildCards #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
 module Services.Movies
   ( Movies(..)
   , mkMovies
-  )
-where
+  ) where
 
 import           Database.PostgreSQL.Resilient  ( ResilientConnection(..) )
 import           Database.PostgreSQL.Simple
@@ -14,12 +14,12 @@ import           Domain.Movie
 import           GHC.Generics                   ( Generic )
 import           Text.RawString.QQ
 
-data Movies m = Movies
+newtype Movies m = Movies
   { findTitle :: TitleText -> m [Movie]
   } deriving Generic
 
 mkMovies :: ResilientConnection IO -> Movies IO
-mkMovies p =  Movies { findTitle = findTitle' p }
+mkMovies p = Movies { findTitle = findTitle' p }
 
 findTitle' :: ResilientConnection IO -> TitleText -> IO [Movie]
 findTitle' pool txt = do
@@ -27,8 +27,7 @@ findTitle' pool txt = do
   query conn byTitleQuery [txt, txt]
 
 byTitleQuery :: Query
-byTitleQuery =
-  [r|SELECT title_id, title, genre, country, language
+byTitleQuery = [r|SELECT title_id, title, genre, year, language, description
      FROM movies
      WHERE ts @@ to_tsquery('english', ?)
      ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC|]

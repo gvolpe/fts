@@ -1,11 +1,11 @@
 module Main where
 
---import           Control.Monad                  ( unless )
---import           Hedgehog
---import           System.Exit
+import           Control.Monad                  ( unless )
+import           Domain.TitleTextSpec
+import           Hedgehog
+import           System.Exit
 
 main :: IO ()
-main = return ()
-  --results <- sequence [checkParallel utilTextTests]
-  --checkParallel paymentTests
-  --unless (and results) $ exitFailure
+main = do
+  results <- sequence [checkParallel titleTextSpec]
+  unless (and results) exitFailure
