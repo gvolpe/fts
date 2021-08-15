@@ -33,7 +33,7 @@ The GUI application is richer in features, powered by the [monomer](https://hack
 $ cabal new-run fts-ui
 ```
 
-TODO: Add screenshot
+![ui-app](img/ui1.jpg)
 
 In addition to search movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
 
