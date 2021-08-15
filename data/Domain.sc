@@ -9,6 +9,8 @@ case class Year(value: Int)               extends AnyVal
 case class PublishingDate(value: Instant) extends AnyVal
 case class DurationMinutes(value: Long)   extends AnyVal
 
+case class Actors(value: List[String]) extends AnyVal
+
 case class Currency(name: String, amount: Long)
 object Currency {
   implicit val jsonEncoder: io.circe.Encoder[Currency] = io.circe.generic.semiauto.deriveEncoder
@@ -27,7 +29,7 @@ case class Movie(
     director: Option[String],
     writer: Option[String],
     production_company: Option[String],
-    actors: Option[String],
+    actors: Option[Actors],
     description: Option[String],
     avg_vote: Double,
     votes: Int,
@@ -41,6 +43,14 @@ case class Movie(
 
 implicit val publishingDateDecoder: CellDecoder[Option[PublishingDate]] =
   CellDecoder.instantDecoder.map(x => Some(PublishingDate(x))).or(CellDecoder.const(None))
+
+implicit val actorsCellDecoder: CellDecoder[Actors] =
+  CellDecoder
+    .fromString { str =>
+      str.filterNot(_ == '"').split(',').toList.map(_.trim)
+    }
+    .or(CellDecoder.const(List.empty[String]))
+    .map(Actors.apply)
 
 // One of the values is "TV Movie 2019"
 implicit val yearDecoder: CellDecoder[Year] =

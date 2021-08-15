@@ -4,12 +4,14 @@ import $file.Domain
 import java.time.ZoneOffset
 
 import cats.effect._
+import cats.syntax.all._
 import fs2.Chunk
 import io.circe.syntax._
 import natchez.Trace.Implicits.noop
 import skunk._
 import skunk.circe.codec.all._
 import skunk.codec.all._
+import skunk.data.Arr
 import skunk.implicits._
 
 trait MovieStore[F[_]] {
@@ -55,8 +57,10 @@ object Codecs {
 
   val year: Codec[Year] = int4.imap(Year.apply)(_.value)
 
+  val actors: Codec[Actors] = _varchar.imap(x => Actors(x.toList))(xs => Arr.fromFoldable(xs.value))
+
   val movie: Encoder[Movie] =
-    (varchar ~ varchar ~ varchar ~ year.opt ~ publishingDate.opt ~ varchar ~ durationMins ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ float8 ~ int4 ~ currency.opt ~ varchar.opt ~ varchar.opt ~ float8.opt ~ float8.opt ~ float8.opt)
+    (varchar ~ varchar ~ varchar ~ year.opt ~ publishingDate.opt ~ varchar ~ durationMins ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ varchar.opt ~ actors.opt ~ varchar.opt ~ float8 ~ int4 ~ currency.opt ~ varchar.opt ~ varchar.opt ~ float8.opt ~ float8.opt ~ float8.opt)
       .contramap { m =>
         m.id ~ m.title ~ m.original_title ~ m.year ~ m.date_published ~ m.genre ~ m.duration ~ m.country ~ m.language ~ m.director ~ m.writer ~ m.production_company ~ m.actors ~ m.description ~ m.avg_vote ~ m.votes ~ m.budget ~ m.usa_gross_income ~ m.worlwide_gross_income ~ m.metascore ~ m.reviews_from_users ~ m.reviews_from_critics
       }

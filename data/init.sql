@@ -11,7 +11,7 @@ CREATE TABLE movies (
   director VARCHAR,
   writer VARCHAR,
   production_company VARCHAR,
-  actors VARCHAR,
+  actors VARCHAR[],
   description VARCHAR,
   avg_vote DOUBLE PRECISION,
   votes INT,
