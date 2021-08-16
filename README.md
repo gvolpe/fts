@@ -13,13 +13,21 @@ There are three components in this project: the dataset loader and both full-tex
 
 Before anything else, we need a PostgreSQL instance up and running. You can use the supplied [docker-compose.yml](./docker-compose.yml) file, or have your own instance running.
 
-### Full-text search console app
-
-In the console app, you can search movies by title. Run it as follows.
+If you care about reproducibility, then [Nix](https://nixos.org/) is your best friend. If not, you can try and build the project via `cabal new-build`, good luck with that :wink:
 
 ```shell
-$ cabal new-run fts
+$ cachix use fts
+$ nix-build
+$ ...
+$ ls result/bin/
+$ fts fts-ui
 ```
+
+The first command is optional but recommended, if you don't want to compile the world! Once the build is complete, you'll find two executables corresponding the two applications described below.
+
+### Full-text search console app
+
+In the console app, you can search movies by title.
 
 ![console-app](img/fts.png)
 
@@ -28,10 +36,6 @@ Hit `Ctrl + C` to exit.
 ### Full-text search GUI app
 
 The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package.
-
-```shell
-$ cabal new-run fts-ui
-```
 
 ![ui-app](img/ui1.jpg)
 
