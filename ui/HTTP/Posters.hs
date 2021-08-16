@@ -32,11 +32,9 @@ fetchPoster (Just apiKey) (Movie (MovieId tid) _ _ _ _ _ _) = do
 
 posterUrl :: ApiKey -> Text -> String
 posterUrl apiKey tid =
-  T.unpack (T.replace "<api_key>" apiKey $ T.replace "<title_id>" tid baseUrl)
-    <> params
- where
-  baseUrl = "https://api.themoviedb.org/3/find/<title_id>?api_key=<api_key>"
-  params  = "&language=en-US&external_source=imdb_id"
+  let url = "https://api.themoviedb.org/3/find/<title_id>?api_key=<api_key>"
+      ext = "&language=en-US&external_source=imdb_id"
+  in  T.unpack (T.replace "<api_key>" apiKey $ T.replace "<title_id>" tid url) <> ext
 
 redact :: String -> String
-redact url = take 52 url <> "<REDACTED>"
+redact url = takeWhile (/= '=') url <> "=<REDACTED>"
