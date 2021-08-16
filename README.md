@@ -7,7 +7,13 @@ Full-text search demo powered by PostgreSQL, inspired by [this article](https://
 
 ## Overview
 
-There are three components in this project: the dataset loader and both full-text search applications: a console app and a GUI app.
+There are three components in this project: the dataset loader and both full-text search applications: a console app and a GUI app, described below.
+
+The idea behind this demo project is to showcase the full-text search feature offered by PostgreSQL, as well as another example of a native multi-platform desktop GUI application written in Haskell.
+
+It also showcases the power of Fs2 streams and Skunk, on the Scala side.
+
+Overall, it was just a fun project :simple_smile:
 
 ### System requirements
 
@@ -35,7 +41,7 @@ Hit `Ctrl + C` to exit.
 
 ### Full-text search GUI app
 
-The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package.
+The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package, and adapted from the [books example](https://github.com/fjvallarino/monomer/blob/main/docs/examples/02-books.md).
 
 ![ui-app](img/ui1.jpg)
 
@@ -57,7 +63,7 @@ If you wish to change the Postgres connection details, have a look at the [confi
 Every time a title is entered in the console, a full-text search is performed against Postgres via the following query, which orders the results by the corresponding ranking (`ts_rank`).
 
 ```sql
-SELECT title_id, title, genre, country, language
+SELECT title_id, title, genre, year, language, description, actors
 FROM movies
 WHERE ts @@ to_tsquery('english', ?)
 ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC
