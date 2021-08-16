@@ -13,7 +13,7 @@ The idea behind this demo project is to showcase the full-text search feature of
 
 It also showcases the power of functional effectful streams on the Scala side.
 
-Overall, it was just a fun project :nerd:
+Overall, it was just a fun project :nerd_face:
 
 ### System requirements
 
