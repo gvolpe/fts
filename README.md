@@ -11,9 +11,9 @@ There are three components in this project: the dataset loader and both full-tex
 
 The idea behind this demo project is to showcase the full-text search feature offered by PostgreSQL, as well as another example of a native multi-platform desktop GUI application written in Haskell.
 
-It also showcases the power of Fs2 streams and Skunk, on the Scala side.
+It also showcases the power of functional effectful streams on the Scala side.
 
-Overall, it was just a fun project :simple_smile:
+Overall, it was just a fun project :nerd:
 
 ### System requirements
 
