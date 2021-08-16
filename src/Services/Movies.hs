@@ -33,7 +33,7 @@ withErrorHandler :: IO [a] -> IO [a]
 withErrorHandler = handle (\(e :: SqlError) -> [] <$ display e)
 
 byTitleQuery :: Query
-byTitleQuery = [r|SELECT title_id, title, genre, year, language, description
+byTitleQuery = [r|SELECT title_id, title, genre, year, language, description, actors
      FROM movies
      WHERE ts @@ to_tsquery('english', ?)
      ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC|]

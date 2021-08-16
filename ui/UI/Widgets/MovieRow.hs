@@ -4,6 +4,7 @@ module UI.Widgets.MovieRow where
 
 import           Control.Lens
 import           Data.Default
+import           Data.Maybe                     ( fromMaybe)
 import           Monomer
 import qualified Monomer.Lens                  as L
 import           TextShow
@@ -14,7 +15,7 @@ movieRow :: MoviesWenv -> MovieDTO -> MoviesNode
 movieRow wenv m = row where
   rowBgColor  = wenv ^. L.theme . L.userColorMap . at "rowBgColor" . non def
   publishYear = maybe "Unknown" showt (m ^. year)
-  genre'      = maybe "Unknown" showt (m ^. genre)
+  genre'      = fromMaybe "Unknown" (m ^. genre)
 
   rowContent  = hstack
     [ vstack

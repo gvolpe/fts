@@ -18,6 +18,8 @@ import           Database.PostgreSQL.Simple.ToField
                                                 ( ToField )
 import           Database.PostgreSQL.Simple.ToRow
                                                 ( ToRow )
+import           Database.PostgreSQL.Simple.Types
+                                                ( PGArray(..) )
 import           GHC.Generics                   ( Generic )
 
 newtype MovieId = MovieId Text
@@ -39,6 +41,10 @@ newtype MovieYear = MovieYear Int
 newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
+
+newtype MovieActors = MovieActors [String]
+  deriving stock (Generic, Show)
+  deriving FromField via PGArray String
 
 newtype MovieDescription = MovieDescription Text
   deriving stock (Generic, Show)
@@ -71,5 +77,6 @@ data Movie = Movie
   , movieYear        :: Maybe MovieYear
   , movieLang        :: Maybe MovieLang
   , movieDescription :: Maybe MovieDescription
+  , movieActors      :: Maybe MovieActors
   }
   deriving (FromRow, Generic, Show)

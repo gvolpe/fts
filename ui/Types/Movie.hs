@@ -29,6 +29,7 @@ data MovieDTO = MovieDTO
   , _mvSynopsis  :: Maybe Text
   , _mvGenre     :: Maybe Text
   , _mvPoster    :: Maybe Text
+  , _mvActors    :: [String]
   }
   deriving (Eq, Show)
 
@@ -36,12 +37,13 @@ toTitleText :: Text -> TitleText
 toTitleText = fromString . T.unpack
 
 fromMovie :: Maybe String -> Movie -> MovieDTO
-fromMovie poster (Movie (MovieId _id) (MovieName _name) maybeGender maybeYear _ maybeDesc)
-  = MovieDTO _id _name _year _desc _genre (T.pack <$> poster)
+fromMovie poster (Movie (MovieId _id) (MovieName _name) maybeGender maybeYear _ maybeDesc maybeActors)
+  = MovieDTO _id _name _year _desc _genre (T.pack <$> poster) _actors
  where
-  _desc  = (\(MovieDescription y) -> y) <$> maybeDesc
-  _year  = (\(MovieYear y) -> y) <$> maybeYear
-  _genre = (\(MovieGenre y) -> y) <$> maybeGender
+  _desc   = (\(MovieDescription y) -> y) <$> maybeDesc
+  _year   = (\(MovieYear y) -> y) <$> maybeYear
+  _genre  = (\(MovieGenre y) -> y) <$> maybeGender
+  _actors = maybe [] (\(MovieActors y) -> y) maybeActors
 
 data MoviesModel = MoviesModel
   { _mvmQuery     :: Text
