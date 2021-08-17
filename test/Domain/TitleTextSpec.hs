@@ -3,6 +3,7 @@
 
 module Domain.TitleTextSpec where
 
+import           Data.Coerce                    ( coerce )
 import           Data.List.Extra                ( trim )
 import           Data.String                    ( fromString )
 import qualified Data.Text                     as T
@@ -18,12 +19,12 @@ prop_title_text_from_string = property $ do
   let s'  = trim s
   let amp = length (" &" :: String)
   let x = if s' == "" then 0 else (length (words s') - 1) * amp
-  length s' + x === f (g s)
+  length s' + x === f s
  where
-  str = Gen.filter (/= "") $ Gen.string (Range.linear 0 10) Gen.lower
-  gen = unwords <$> Gen.list (Range.linear 0 10) str
-  f   = \(TitleText t) -> T.length t
-  g s = fromString s :: TitleText
+  rng = Range.linear 0 10
+  str = Gen.filter (/= "") $ Gen.string rng Gen.lower
+  gen = unwords <$> Gen.list rng str
+  f s = T.length $ coerce (fromString s :: TitleText)
 
 titleTextSpec :: Group
 titleTextSpec = $$(discover)
