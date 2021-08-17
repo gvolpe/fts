@@ -11,7 +11,9 @@ import qualified Data.Text                     as T
 import           Monomer
 import           TextShow                       ( showt )
 import           Types.Movie
-import           UI.Widgets.MovieImage          ( movieImage )
+import           UI.Widgets.MovieImage          ( movieImage
+                                                , tmdbImage
+                                                )
 
 movieDetail :: MovieDTO -> WidgetNode s MoviesEvt
 movieDetail m = content `styleBasic` [minWidth 600, paddingH 20] where
@@ -38,6 +40,8 @@ movieDetail m = content `styleBasic` [minWidth 600, paddingH 20] where
               , longLabel synopsis' `styleBasic` [height 200, textSize 12]
               , spacer
               , longLabel actors' `styleBasic` [height 150, textSize 12]
+              , spacer
+              , tmdbImage `styleBasic` [width 250]
               ]
           ]
         , [ filler | hasPoster ]
