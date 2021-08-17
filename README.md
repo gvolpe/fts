@@ -13,7 +13,7 @@ The idea behind this demo project is to showcase the full-text search feature of
 
 It also showcases the power of functional effectful streams on the Scala side.
 
-Overall, it was just a fun project :nerd_face:
+Overall, it was just a fun pet project :nerd_face:
 
 ### System requirements
 
@@ -24,9 +24,9 @@ If you care about reproducibility, then [Nix](https://nixos.org/) is your best f
 ```shell
 $ cachix use fts
 $ nix-build
-$ ...
+...
 $ ls result/bin/
-$ fts fts-ui
+fts fts-ui
 ```
 
 The first command is optional but recommended, if you don't want to compile the world! Once the build is complete, you'll find two executables corresponding the two applications described below.
