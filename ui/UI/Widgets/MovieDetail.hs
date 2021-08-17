@@ -2,12 +2,14 @@
 
 module UI.Widgets.MovieDetail where
 
-import           Control.Lens
+import           Control.Lens                   ( (^.) )
 import           Data.List                      ( intercalate )
-import           Data.Maybe
+import           Data.Maybe                     ( fromMaybe
+                                                , isJust
+                                                )
 import qualified Data.Text                     as T
 import           Monomer
-import           TextShow
+import           TextShow                       ( showt )
 import           Types.Movie
 import           UI.Widgets.MovieImage          ( movieImage )
 

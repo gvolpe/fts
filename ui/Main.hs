@@ -3,7 +3,7 @@
 
 module Main where
 
-import           Control.Lens
+import           Control.Lens                   ( view )
 import           Control.Monad.Managed          ( with )
 import           Data.Generics.Labels           ( )
 import           Handler                        ( eventHandler )

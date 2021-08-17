@@ -1,4 +1,5 @@
-{-# LANGUAGE OverloadedLabels, OverloadedStrings #-}
+{-# LANGUAGE OverloadedLabels #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 

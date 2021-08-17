@@ -3,11 +3,11 @@
 module UI.Widgets.MovieRow where
 
 import           Control.Lens
-import           Data.Default
-import           Data.Maybe                     ( fromMaybe)
+import           Data.Default                   ( def )
+import           Data.Maybe                     ( fromMaybe )
 import           Monomer
 import qualified Monomer.Lens                  as L
-import           TextShow
+import           TextShow                       ( showt )
 import           Types.Movie
 import           UI.Widgets.MovieImage          ( movieImage )
 

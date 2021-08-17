@@ -45,7 +45,7 @@ The GUI application is richer in features, powered by the [monomer](https://hack
 
 ![ui-app](img/ui.jpg)
 
-In addition to search movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
+In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
 
 ### Dataset loader
 
@@ -60,7 +60,7 @@ If you wish to change the Postgres connection details, have a look at the [confi
 
 ### Technical details
 
-Every time a title is entered in the console, a full-text search is performed against Postgres via the following query, which orders the results by the corresponding ranking (`ts_rank`).
+Every time a title is entered, a full-text search is performed against Postgres via the following query, which orders the results by the corresponding ranking (`ts_rank`).
 
 ```sql
 SELECT title_id, title, genre, year, language, description, actors
@@ -69,7 +69,7 @@ WHERE ts @@ to_tsquery('english', ?)
 ORDER BY ts_rank(ts, to_tsquery('english', ?)) DESC
 ```
 
-The console application only displays the title together with a link to the movie in [imdb](https://www.imdb.com/) but anything should be possible with a bit of customization.
+The console application only displays the title together with a link to the movie in [imdb](https://www.imdb.com/) but anything should be possible with a bit of customization, as done in the GUI application.
 
 ## Dataset License
 
