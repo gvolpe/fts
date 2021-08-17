@@ -1,9 +1,14 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedLabels #-}
 
 module Effects.Display where
 
+import           Control.Lens                   ( (^.) )
+import           Data.Coerce                    ( coerce )
 import           Data.Foldable                  ( traverse_ )
+import           Data.Generics.Labels           ( )
 import qualified Data.Text                     as T
 import           Data.Word                      ( Word8 )
 import           Database.PostgreSQL.Simple     ( SqlError(..) )
@@ -18,14 +23,15 @@ instance Display [Movie] where
   display [] = putStrLn "➢ No hits"
   display xs = traverse_ f $ zip [1 ..] xs
    where
-    f (idx, Movie (MovieId _id) (MovieName _name) _ _ _ _ _) = do
+    f (idx, m) = do
       setSGR
         [ SetConsoleIntensity NormalIntensity
         , SetPaletteColor Foreground paleOrange
         ]
-      putStrLn $ show idx <> ". " <> T.unpack _name
+      putStrLn $ show idx <> ". " <> T.unpack (coerce $ m ^. #movieName)
       setSGR [Reset]
-      putStrLn $ "   ➢ " <> "https://www.imdb.com/title/" <> T.unpack _id
+      putStrLn $ "   ➢ " <> "https://www.imdb.com/title/" <> T.unpack
+        (coerce $ m ^. #movieId)
 
 instance Display ResultText where
   display (ResultText t) = do

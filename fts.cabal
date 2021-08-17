@@ -23,6 +23,8 @@ library
                      , containers
                      , exceptions
                      , extra
+                     , generic-lens
+                     , lens
                      , managed
                      , monomer
                      , postgresql-resilient

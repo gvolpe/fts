@@ -2,14 +2,18 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Types.Movie where
 
+import           Control.Lens                   ( (^.) )
 import           Control.Lens.TH
 import           Data.Aeson
+import           Data.Coerce                    ( coerce )
+import           Data.Generics.Labels           ( )
 import           Data.String                    ( fromString )
 import           Data.Text                      ( Text )
 import qualified Data.Text                     as T
@@ -37,13 +41,14 @@ toTitleText :: Text -> TitleText
 toTitleText = fromString . T.unpack
 
 fromMovie :: Maybe String -> Movie -> MovieDTO
-fromMovie poster (Movie (MovieId _id) (MovieName _name) maybeGender maybeYear _ maybeDesc maybeActors)
-  = MovieDTO _id _name _year _desc _genre (T.pack <$> poster) _actors
- where
-  _desc   = (\(MovieDescription y) -> y) <$> maybeDesc
-  _year   = (\(MovieYear y) -> y) <$> maybeYear
-  _genre  = (\(MovieGenre y) -> y) <$> maybeGender
-  _actors = maybe [] (\(MovieActors y) -> y) maybeActors
+fromMovie poster m = MovieDTO { _mvTitleId   = coerce $ m ^. #movieId
+                              , _mvTitleName = coerce $ m ^. #movieName
+                              , _mvYear      = coerce <$> m ^. #movieYear
+                              , _mvSynopsis  = coerce <$> m ^. #movieDescription
+                              , _mvGenre     = coerce <$> m ^. #movieGenre
+                              , _mvPoster    = T.pack <$> poster
+                              , _mvActors = maybe [] coerce $ m ^. #movieActors
+                              }
 
 data MoviesModel = MoviesModel
   { _mvmQuery     :: Text
