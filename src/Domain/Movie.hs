@@ -45,9 +45,9 @@ newtype MovieLang = MovieLang Text
   deriving stock (Generic, Show)
   deriving FromField via Text
 
-newtype MovieActors = MovieActors [String]
+newtype MovieActors = MovieActors [Text]
   deriving stock (Generic, Show)
-  deriving FromField via PGArray String
+  deriving FromField via PGArray Text
 
 newtype MovieDescription = MovieDescription Text
   deriving stock (Generic, Show)

@@ -3,10 +3,10 @@
 module UI.Widgets.MovieDetail where
 
 import           Control.Lens                   ( (^.) )
-import           Data.List                      ( intercalate )
 import           Data.Maybe                     ( fromMaybe
                                                 , isJust
                                                 )
+import           Data.Text                      ( intercalate )
 import qualified Data.Text                     as T
 import           Monomer
 import           TextShow                       ( showt )
@@ -19,7 +19,7 @@ movieDetail m = content `styleBasic` [minWidth 600, paddingH 20] where
   synopsis'   = fromMaybe "" (m ^. synopsis)
   publishYear = maybe "Unknown" showt (m ^. year)
   genre'      = fromMaybe "Unknown" (m ^. genre)
-  actors'     = T.filter (/= '"') . showt $ intercalate ", " (m ^. actors)
+  actors'     = T.filter (/= '"') $ intercalate ", " (m ^. actors)
 
   shortLabel value = label value `styleBasic` [textFont "Medium", textTop]
   longLabel value = label_ value [multiline, ellipsis, trimSpaces]

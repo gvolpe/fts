@@ -33,7 +33,7 @@ data MovieDTO = MovieDTO
   , _mvSynopsis  :: Maybe Text
   , _mvGenre     :: Maybe Text
   , _mvPoster    :: Maybe Text
-  , _mvActors    :: [String]
+  , _mvActors    :: [Text]
   }
   deriving (Eq, Show)
 
