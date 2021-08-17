@@ -43,7 +43,7 @@ Hit `Ctrl + C` to exit.
 
 The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package, and adapted from the [books example](https://github.com/fjvallarino/monomer/blob/main/docs/examples/02-books.md).
 
-![ui-app](img/ui.jpg)
+![ui-app](img/gui.jpg)
 
 In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
 
