@@ -25,9 +25,8 @@ let
         pkgs.haskell.lib.dontCheck (
           new.callCabal2nixWithOptions "nanovg" (
             builtins.fetchGit {
-              url = "https://github.com/fjvallarino/nanovg-hs.git";
-              ref = "refs/heads/chore/windows-build";
-              rev = "ba8733f58da63e0934b5d2853ed84b71e872e6f1";
+              url = "https://github.com/cocreature/nanovg-hs.git";
+              rev = "cc8dfa0dc18a0792786c973b4e9a232fa7d3ecfd";
             }
           ) "-fexamples -fstb_truetype" {
             GLEW = null;
