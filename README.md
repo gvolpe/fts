@@ -45,7 +45,7 @@ The GUI application is richer in features, powered by the [monomer](https://hack
 
 ![ui-app](img/gui.jpg)
 
-In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
+In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set. To get one, have a look at the [instructions](https://developers.themoviedb.org/3/getting-started/introduction).
 
 **NOTE**: Non-NixOS users need to run `fts-ui` via [nixGL](https://github.com/guibou/nixGL), due to some complicated OpenGL linking issues. TL;DR:
 
