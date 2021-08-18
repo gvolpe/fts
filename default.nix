@@ -1,3 +1,13 @@
-{ packages ? import nix/pkgs.nix { inherit compiler; }, compiler ? "ghc8104" }:
-
-packages.hp.callCabal2nix "fts" ./. {}
+let
+  inherit (import nix/pkgs.nix {}) pkgs hp;
+  drv = hp.callCabal2nix "fts" ./. {};
+in
+drv.overrideAttrs (
+  old: {
+    nativeBuildInputs = old.nativeBuildInputs ++ [
+      pkgs.freetype
+      pkgs.glew
+      pkgs.SDL2
+    ];
+  }
+)
