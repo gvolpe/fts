@@ -22,10 +22,16 @@ searchMovies
 searchMovies apiKey service input sendMsg =
   toTitleText input & service ^. #findTitle >>= \case
     [] -> sendMsg $ MoviesSearchError "No hits"
-    xs -> traverse_ (g . f) xs
+    xs -> case apiKey of
+      (Just k) -> traverse_ (f k) xs
+      Nothing  -> g xs
  where
-  f x = (`fromMovie` x) <$> fetchPoster apiKey x
-  g x = x >>= \s -> s <$ sendMsg (MoviesSearchResult [s])
+  f k x = do
+    s <- (`fromMovie` x) <$> fetchPoster k x
+    s <$ sendMsg (MoviesSearchResult [s])
+  g xs = do
+    putStrLn "No value set for TMDB_API_KEY, cannot fetch movie posters"
+    sendMsg $ MoviesSearchResult (fromMovie Nothing <$> xs)
 
 eventHandler
   :: Maybe ApiKey

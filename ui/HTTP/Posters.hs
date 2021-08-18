@@ -20,10 +20,8 @@ import           Utils                          ( orElse )
 type ApiKey = Text
 type Poster = String
 
-fetchPoster :: Maybe ApiKey -> Movie -> IO (Maybe Poster)
-fetchPoster Nothing _ =
-  Nothing <$ putStrLn "No value set for TMDB_API_KEY, cannot get movie poster"
-fetchPoster (Just apiKey) mv = do
+fetchPoster :: ApiKey -> Movie -> IO (Maybe Poster)
+fetchPoster apiKey mv = do
   let url = posterUrl apiKey $ coerce (mv ^. #movieId)
   putStrLn $ "Fetching poster: " <> redact url
   m <- fetch url `orElse` return Nothing
