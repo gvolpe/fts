@@ -47,6 +47,16 @@ The GUI application is richer in features, powered by the [monomer](https://hack
 
 In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set.
 
+**NOTE**: Non-NixOS users need to run `fts-ui` via [nixGL](https://github.com/guibou/nixGL), due to some complicated OpenGL linking issues. TL;DR:
+
+```shell
+$ nix-channel --add https://github.com/guibou/nixGL/archive/main.tar.gz nixgl
+$ nix-channel --update
+$ nix-env -iA nixgl.auto.nixGLDefault
+```
+
+Then run the program as `nixGL result/bin/fts-ui` instead.
+
 ### Dataset loader
 
 The loader is a nix shell script interpreted by [Ammonite](http://ammonite.io/), written in Scala, which reads a movies CSV file, parses its content, and it stores them in Postgres. These tasks are made easy by [fs2](https://fs2.io), [fs2-data](https://github.com/satabin/fs2-data), and [skunk](https://github.com/tpolecat/skunk).
