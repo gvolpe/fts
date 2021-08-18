@@ -4,7 +4,9 @@ module UI.Widgets.MovieRow where
 
 import           Control.Lens
 import           Data.Default                   ( def )
-import           Data.Maybe                     ( fromMaybe )
+import           Data.Maybe                     ( fromMaybe
+                                                , isJust
+                                                )
 import           Monomer
 import qualified Monomer.Lens                  as L
 import           TextShow                       ( showt )
@@ -13,6 +15,7 @@ import           UI.Widgets.MovieImage          ( movieImage )
 
 movieRow :: MoviesWenv -> MovieDTO -> MoviesNode
 movieRow wenv m = row where
+  hasPoster   = isJust (m ^. poster)
   rowBgColor  = wenv ^. L.theme . L.userColorMap . at "rowBgColor" . non def
   publishYear = maybe "Unknown" showt (m ^. year)
   genre'      = fromMaybe "Unknown" (m ^. genre)
@@ -29,7 +32,7 @@ movieRow wenv m = row where
       [ label publishYear `styleBasic` [height 100, width 50, textSize 14]
       , spacer
       ]
-    , movieImage (m ^. poster) `styleBasic` [width 35]
+    , hstack [ movieImage (m ^. poster) `styleBasic` [width 35] | hasPoster ]
     ]
 
   row = box_ cfg content `styleBasic` [padding 10, paddingT 0]   where
