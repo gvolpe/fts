@@ -33,11 +33,11 @@ The first command is optional but recommended, if you don't want to compile the 
 
 ### Full-text search console app
 
-In the console app, you can search movies by title.
+In the console app, you can search movies by title (hit `Ctrl + C` to exit).
 
 ![console-app](img/fts.png)
 
-Hit `Ctrl + C` to exit.
+**NOTE**: Your terminal needs to support the rendering of emojis and Unicode characters. Make sure you have a modern font installed in your system. In my case, I use [Alacritty](https://github.com/alacritty/alacritty) and [JetBrainsMono](https://www.jetbrains.com/lp/mono/).
 
 ### Full-text search GUI app
 
