@@ -13,6 +13,7 @@ in
       cabal-install
       haskell-language-server
       hlint
+      pkgs.which # for shellHook
     ];
     shellHook = ''
       export NIX_GHC="$(which ghc)"
