@@ -35,7 +35,7 @@ The first command is optional but recommended, if you don't want to compile the 
 
 In the console app, you can search movies by title (hit `Ctrl + C` to exit).
 
-![console-app](img/fts.png)
+![console-app](assets/img/fts.png)
 
 **NOTE**: Your terminal needs to support the rendering of emojis and Unicode characters. Make sure you have a modern font installed in your system. In my case, I use [Alacritty](https://github.com/alacritty/alacritty) and [JetBrainsMono](https://www.jetbrains.com/lp/mono/).
 
@@ -43,7 +43,7 @@ In the console app, you can search movies by title (hit `Ctrl + C` to exit).
 
 The GUI application is richer in features, powered by the [monomer](https://hackage.haskell.org/package/monomer) package, and adapted from the [books example](https://github.com/fjvallarino/monomer/blob/main/docs/examples/02-books.md).
 
-![ui-app](img/gui.jpg)
+![ui-app](assets/img/gui.jpg)
 
 In addition to searching movies in Postgres, it tries to fetch the movie poster from [TMDB](https://www.themoviedb.org/), if the `TMDB_API_KEY` environment variable is set. To get one, have a look at the [instructions](https://developers.themoviedb.org/3/getting-started/introduction).
 

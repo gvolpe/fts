@@ -12,4 +12,4 @@ movieImage = maybe filler coverImg where
   coverImg i = image_ (baseUrl <> i) [fitHeight, alignRight]
 
 tmdbImage :: WidgetNode s MoviesEvt
-tmdbImage = image_ "img/tmdb.png" [fitNone, alignLeft]
+tmdbImage = image_ "assets/img/tmdb.png" [fitNone, alignLeft]
