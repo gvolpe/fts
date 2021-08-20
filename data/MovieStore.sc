@@ -15,7 +15,7 @@ import skunk.data.Arr
 import skunk.implicits._
 
 trait MovieStore[F[_]] {
-  def persist(movies: fs2.Chunk[Domain.Movie]): F[Unit]
+  def persist(movies: Chunk[Domain.Movie]): F[Unit]
 }
 
 import Domain._
