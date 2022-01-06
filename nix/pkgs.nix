@@ -17,6 +17,7 @@ let
             builtins.fetchGit {
               url = "https://github.com/fjvallarino/monomer.git";
               rev = "c1903ed153243aadb12a838bfc1238b4e25a6bcf";
+              ref = "refs/heads/main";
             }
           ) { GLEW = pkgs.glew; }
         );
